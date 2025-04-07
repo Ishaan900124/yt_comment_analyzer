@@ -5,13 +5,16 @@ import pickle
 import keras
 import numpy as np
 import re
+import os
+from dotenv import load_dotenv
 
+load_dotenv()
 app = Flask(__name__)
 CORS(app)
 
 api_service_name = "youtube"
 api_version = "v3"
-DEVELOPER_KEY = "AIzaSyBCVfQu2wrFZ0g3PJFBxxUIJDo01X8b7GE"
+DEVELOPER_KEY=os.getenv("YOUTUBE_API")
 
 youtube = googleapiclient.discovery.build(
     api_service_name, api_version, developerKey=DEVELOPER_KEY
