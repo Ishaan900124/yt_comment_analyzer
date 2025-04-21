@@ -7,6 +7,15 @@ import numpy as np
 import re
 import os
 from dotenv import load_dotenv
+import nltk
+from nltk.corpus import stopwords
+from nltk.stem.lancaster import LancasterStemmer
+
+nltk.download('stopwords')
+nltk.download('punkt')
+
+stop = stopwords.words('english')
+stemmer = LancasterStemmer()
 
 load_dotenv()
 app = Flask(__name__)
@@ -23,6 +32,10 @@ youtube = googleapiclient.discovery.build(
 sen_pred = keras.models.load_model('sentiment_prediction_model.keras')
 with open("sentiment_tokenizer.pickle",'rb') as file:
     sen_token = pickle.load(file)
+
+tox_pred = keras.models.load_model('toxicity_prediction_model.keras')
+with open("toxicity_tokenizer.pickle",'rb') as file:
+    tox_token = pickle.load(file)
 
 def fetch_comments(video_id):
     request = youtube.commentThreads().list(
@@ -48,6 +61,7 @@ def predict_sentiment(review,model):
     review = re.sub(r'\d+', '', review)
     review = re.sub(r'[^a-zA-Z\s]', '', review)
     review = review.lower()
+    review = ' '.join([word for word in review.split() if word not in (stop)])
     sequence = sen_token.texts_to_sequences([review])
     padded_sequence = keras.preprocessing.sequence.pad_sequences(sequence, maxlen=100, truncating='post')
     prediction = model.predict(padded_sequence)
@@ -58,6 +72,25 @@ def predict_sentiment(review,model):
         return 'neutral'
     elif predicted_class == 2:
         return 'positive'
+    
+def predict_toxicity(review,model):
+    review = re.sub(r'http\S+', '', review)
+    review = re.sub(r'[^\w\s]', '', review)
+    review = re.sub(r'\s+', ' ', review)
+    review = re.sub(r'\d+', '', review)
+    review = re.sub(r'[^a-zA-Z\s]', '', review)
+    review = review.lower()
+    review = ' '.join([word for word in review.split() if word not in (stop)])
+    review = ' '.join([stemmer.stem(word) for word in review.split()])
+    sequence = tox_token.texts_to_sequences([review])
+    padded_sequence = keras.preprocessing.sequence.pad_sequences(sequence, maxlen=100, truncating='post')
+    prediction = model.predict(padded_sequence)
+    answer=[]
+    a=['toxic','severe_toxic','obscene','threat','insult','identity_hate']
+    for i in range(6):
+        if prediction[0][i]>=0.2:
+            answer.append(a[i])
+    return answer
 
 @app.route('/get_comments', methods=['POST'])
 def get_comments():
@@ -79,6 +112,19 @@ def sentiment_analysis():
         for item in data:
             sentiment = predict_sentiment(item['comment'], sen_pred)
             ret.append({'username': item['username'], 'comment': item['comment'], 'sentiment': sentiment})
+        return jsonify(ret)
+
+    except Exception as e:
+        return jsonify({'error': str(e)})
+    
+@app.route('/toxicity', methods=['POST'])
+def toxicity_analysis():
+    try:
+        ret = []
+        data = request.get_json(force=True)
+        for item in data:
+            toxic = predict_toxicity(item['comment'], tox_pred)
+            ret.append({'username': item['username'], 'comment': item['comment'], 'toxicity': toxic})
         return jsonify(ret)
 
     except Exception as e:

@@ -4,6 +4,7 @@ import Sidebar from './sidebar';
 import Sentiment from './Sentiment/sentiment';
 import Toxicity from './Toxicity/toxicity';
 import Emotion from './Emotion/emotion';
+import Frontpage from './Frontpage';
 
 function Dashboard() {
     const [field, setField] = useState(0);
@@ -94,7 +95,7 @@ function Dashboard() {
                                 </div>
                             </form>
                             </nav>
-                            {(field===1?<Sentiment comments={comments} comment={Comment}/>:(field===2?<Emotion/>:<Toxicity/>))}
+                            {(field===1?<Sentiment comments={comments} comment={Comment}/>:(field===2?<Emotion/>:(field===3?<Toxicity comments={comments} comment={Comment}/>:<Frontpage/>)))}
                         </div>
                     </div>
                 </div>

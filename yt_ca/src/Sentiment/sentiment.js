@@ -1,8 +1,12 @@
-import React from 'react'
+import React, { useState } from 'react'
 import Carde from '../carde'
 import CommentCard from './commentCard'
 
 const Sentiment = ({comments, comment}) => {
+    const [data, setData] = useState([]);
+    const positive = 0;
+    const negative = 0;
+    const neutral = 0;
     const handleSubmit = async (e) => {
         e.preventDefault();
         if(!comment){
@@ -22,8 +26,9 @@ const Sentiment = ({comments, comment}) => {
             if (!response.ok) {
                 throw new Error("Network response was not ok");
             }
-            const responseData = await response.json();
+            const responseData = Array.from(await response.json());
             console.log(responseData);
+            setData(responseData);
         } 
         catch (error) {
             console.error("There was a problem with your fetch operation:", error);
@@ -46,10 +51,11 @@ const Sentiment = ({comments, comment}) => {
                         <h6 className="m-0 font-weight-bold text-primary" style={{width:"60%"}}>Comment</h6>
                         <h6 className="m-0 font-weight-bold text-primary" style={{width:"20%", textAlign:"center"}}>Sentiment</h6>
                     </div>
-                    <CommentCard/>
-                    <CommentCard/>
-                    <CommentCard/>
-                    <CommentCard/>
+                    {data.map((c, idx)=>
+                        (
+                            <CommentCard user={c.username} comment={c.comment} sentiment={c.sentiment} />
+                        )
+                    )}
                 </div>
             </div>
         </div>

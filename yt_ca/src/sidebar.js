@@ -26,7 +26,7 @@ const Sidebar = ({func1, func2, func3}) => {
             <hr className="sidebar-divider my-0"/>
                 <li className="nav-item" >
                     <a className="nav-link collapsed" href="#">
-                        <i className="fas fa-fw fa-folder"></i>
+                        <i className="fas fa-fw fa-chart-area"></i>
                         <span onClick={func1}>Sentiment Analysis</span>
                     </a>
                 </li>
@@ -38,8 +38,14 @@ const Sidebar = ({func1, func2, func3}) => {
                 </li>
                 <li className="nav-item">
                     <a className="nav-link" href="#">
-                        <i className="fas fa-fw fa-table"></i>
+                        <i className="fas fa-fw fa-chart-area"></i>
                         <span onClick={func3}>Toxicity Analysis</span>
+                    </a>
+                </li>
+                <li className="nav-item">
+                    <a className="nav-link" href="#">
+                        <i className="fas fa-fw fa-chart-area"></i>
+                        <span onClick={func3}>Comments Summarization</span>
                     </a>
                 </li>
             <hr className="sidebar-divider d-none d-md-block" />
