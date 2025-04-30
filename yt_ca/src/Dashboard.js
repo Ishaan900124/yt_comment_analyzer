@@ -5,6 +5,7 @@ import Sentiment from './Sentiment/sentiment';
 import Toxicity from './Toxicity/toxicity';
 import Emotion from './Emotion/emotion';
 import Frontpage from './Frontpage';
+import Summarization from './Summarization/summarization';
 
 function Dashboard() {
     const [field, setField] = useState(0);
@@ -12,14 +13,21 @@ function Dashboard() {
     const [fetching, setFetching] = useState(false);
     const [Comment, setComment] = useState(false);
     const [comments, setComments] = useState({});
-    const f1 = () => {
+    const f1 = (e) => {
+        e.preventDefault();
         setField(1);
     }
-    const f2 = () => {
+    const f2 = (e) => {
+        e.preventDefault();
         setField(2);
     }
-    const f3 = () => {
+    const f3 = (e) => {
+        e.preventDefault();
         setField(3);
+    }
+    const f4 = (e) => {
+        e.preventDefault();
+        setField(4);
     }
     const [style, setStyle] = useState("navbar-nav bg-gradient-primary sidebar sidebar-dark accordion");
     const changeStyle1 = () => {
@@ -74,7 +82,7 @@ function Dashboard() {
         <div>
             <body id="page-top">
                 <div id="wrapper">
-                    <Sidebar func1={f1} func2={f2} func3={f3}/>
+                    <Sidebar func1={f1} func2={f2} func3={f3} func4={f4}/>
                     <div id="content-wrapper" className="d-flex flex-column">
                         <div id="content">
                             <nav className="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
@@ -95,7 +103,7 @@ function Dashboard() {
                                 </div>
                             </form>
                             </nav>
-                            {(field===1?<Sentiment comments={comments} comment={Comment}/>:(field===2?<Emotion/>:(field===3?<Toxicity comments={comments} comment={Comment}/>:<Frontpage/>)))}
+                            {(field===1?<Sentiment comments={comments} comment={Comment}/>:(field===2?<Emotion/>:(field===3?<Toxicity comments={comments} comment={Comment}/>:(field===4?<Summarization comments={comments} comment={Comment}/>:<Frontpage/>))))}
                         </div>
                     </div>
                 </div>

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-const Sidebar = ({func1, func2, func3}) => {
+const Sidebar = ({func1, func2, func3, func4}) => {
     const [style, setStyle] = useState("navbar-nav bg-gradient-primary sidebar sidebar-dark accordion");
     
     const changeStyle = () => {
@@ -25,27 +25,27 @@ const Sidebar = ({func1, func2, func3}) => {
             </a>
             <hr className="sidebar-divider my-0"/>
                 <li className="nav-item" >
-                    <a className="nav-link collapsed" href="#">
+                    <a className="nav-link collapsed">
                         <i className="fas fa-fw fa-chart-area"></i>
                         <span onClick={func1}>Sentiment Analysis</span>
                     </a>
                 </li>
                 <li className="nav-item">
-                    <a className="nav-link" href="#">
+                    <a className="nav-link">
                         <i className="fas fa-fw fa-chart-area"></i>
                         <span onClick={func2}>Emotional Analysis</span>
                     </a>
                 </li>
                 <li className="nav-item">
-                    <a className="nav-link" href="#">
+                    <a className="nav-link">
                         <i className="fas fa-fw fa-chart-area"></i>
                         <span onClick={func3}>Toxicity Analysis</span>
                     </a>
                 </li>
                 <li className="nav-item">
-                    <a className="nav-link" href="#">
+                    <a className="nav-link">
                         <i className="fas fa-fw fa-chart-area"></i>
-                        <span onClick={func3}>Comments Summarization</span>
+                        <span onClick={func4}>Comments Summarization</span>
                     </a>
                 </li>
             <hr className="sidebar-divider d-none d-md-block" />

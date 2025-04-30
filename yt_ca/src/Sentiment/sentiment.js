@@ -47,9 +47,9 @@ const Sentiment = ({comments, comment}) => {
             <div className="col-xl-12 col-lg-7">
                 <div className="card shadow mb-4">
                     <div className="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                        <h6 className="m-0 font-weight-bold text-primary" style={{width:"20%"}}>User</h6>
-                        <h6 className="m-0 font-weight-bold text-primary" style={{width:"60%"}}>Comment</h6>
-                        <h6 className="m-0 font-weight-bold text-primary" style={{width:"20%", textAlign:"center"}}>Sentiment</h6>
+                        <h6 className="m-0 font-weight-bold text-primary" style={{width:"23%"}}>User</h6>
+                        <h6 className="m-0 font-weight-bold text-primary" style={{width:"67%"}}>Comment</h6>
+                        <h6 className="m-0 font-weight-bold text-primary" style={{width:"10%", textAlign:"center"}}>Sentiment</h6>
                     </div>
                     {data.map((c, idx)=>
                         (

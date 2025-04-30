@@ -10,9 +10,12 @@ from dotenv import load_dotenv
 import nltk
 from nltk.corpus import stopwords
 from nltk.stem.lancaster import LancasterStemmer
+from transformers import pipeline
 
 nltk.download('stopwords')
 nltk.download('punkt')
+
+summarizer=pipeline("summarization",model='t5-base',tokenizer='t5-base')
 
 stop = stopwords.words('english')
 stemmer = LancasterStemmer()
@@ -88,7 +91,7 @@ def predict_toxicity(review,model):
     answer=[]
     a=['toxic','severe_toxic','obscene','threat','insult','identity_hate']
     for i in range(6):
-        if prediction[0][i]>=0.2:
+        if prediction[0][i]>=0.3:
             answer.append(a[i])
     return answer
 
@@ -125,6 +128,29 @@ def toxicity_analysis():
         for item in data:
             toxic = predict_toxicity(item['comment'], tox_pred)
             ret.append({'username': item['username'], 'comment': item['comment'], 'toxicity': toxic})
+        return jsonify(ret)
+    
+    except Exception as e:
+        return jsonify({'error': str(e)})
+    
+@app.route('/summarization', methods=['POST'])
+def text_summarization():
+    try:
+        ret = []
+        comment = ""
+        data = request.get_json(force=True)
+        for item in data:
+            review = item['comment']
+            review = re.sub(r'http\S+', '', review)
+            review = re.sub(r'[^\w\s]', '', review)
+            review = re.sub(r'\s+', ' ', review)
+            review = re.sub(r'\d+', '', review)
+            review = re.sub(r'[^a-zA-Z\s]', '', review)
+            review = review.lower()
+            comment = comment + review
+        
+        summary = summarizer(comment,max_length=300,min_length=10,do_sample=False)
+        ret.append(summary[0]['summary_text'])
         return jsonify(ret)
 
     except Exception as e:
