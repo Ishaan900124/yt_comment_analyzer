@@ -103,7 +103,7 @@ function Dashboard() {
                                 </div>
                             </form>
                             </nav>
-                            {(field===1?<Sentiment comments={comments} comment={Comment}/>:(field===2?<Emotion/>:(field===3?<Toxicity comments={comments} comment={Comment}/>:(field===4?<Summarization comments={comments} comment={Comment}/>:<Frontpage/>))))}
+                            {(field===1?<Sentiment comments={comments} comment={Comment}/>:(field===2?<Emotion comments={comments} comment={Comment}/>:(field===3?<Toxicity comments={comments} comment={Comment}/>:(field===4?<Summarization comments={comments} comment={Comment}/>:<Frontpage/>))))}
                         </div>
                     </div>
                 </div>
