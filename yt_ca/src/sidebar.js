@@ -25,25 +25,25 @@ const Sidebar = ({func1, func2, func3, func4}) => {
             </a>
             <hr className="sidebar-divider my-0"/>
                 <li className="nav-item" >
-                    <a className="nav-link collapsed">
+                    <a className="nav-link" href='#'>
                         <i className="fas fa-fw fa-chart-area"></i>
                         <span onClick={func1}>Sentiment Analysis</span>
                     </a>
                 </li>
                 <li className="nav-item">
-                    <a className="nav-link">
+                    <a className="nav-link" href='#'>
                         <i className="fas fa-fw fa-chart-area"></i>
                         <span onClick={func2}>Emotional Analysis</span>
                     </a>
                 </li>
                 <li className="nav-item">
-                    <a className="nav-link">
+                    <a className="nav-link" href='#'>
                         <i className="fas fa-fw fa-chart-area"></i>
                         <span onClick={func3}>Toxicity Analysis</span>
                     </a>
                 </li>
                 <li className="nav-item">
-                    <a className="nav-link">
+                    <a className="nav-link" href='#'>
                         <i className="fas fa-fw fa-chart-area"></i>
                         <span onClick={func4}>Comments Summarization</span>
                     </a>

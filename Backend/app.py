@@ -11,12 +11,13 @@ import nltk
 from nltk.corpus import stopwords
 from nltk.stem.lancaster import LancasterStemmer
 from transformers import pipeline
+from googletrans import Translator
 
 nltk.download('stopwords')
 nltk.download('punkt')
 
 summarizer=pipeline("summarization",model='t5-base',tokenizer='t5-base')
-
+translator = Translator()
 stop = stopwords.words('english')
 stemmer = LancasterStemmer()
 
@@ -95,7 +96,7 @@ def predict_toxicity(review,model):
     answer=[]
     a=['toxic','severe_toxic','obscene','threat','insult','identity_hate']
     for i in range(6):
-        if prediction[0][i]>=0.3:
+        if prediction[0][i]>=0.4:
             answer.append(a[i])
     return answer
 

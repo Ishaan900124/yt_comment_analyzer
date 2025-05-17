@@ -7,15 +7,20 @@ import Emotion from './Emotion/emotion';
 import Frontpage from './Frontpage';
 import Summarization from './Summarization/summarization';
 
+
 function Dashboard() {
     const [field, setField] = useState(0);
     const [fucUrl, setUrl] = useState("");
-    const [fetching, setFetching] = useState(false);
     const [Comment, setComment] = useState(false);
     const [comments, setComments] = useState({});
+    const [data, setData] = useState([]);
+    const [sendata, setSendata] = useState([]);
+    const [emodata, setEmodata] = useState([]);
+    const [toxdata, setToxdata] = useState([]);
+    const [sen, setSen] = useState(false);
     const f1 = (e) => {
         e.preventDefault();
-        setField(1);
+        setField(1)
     }
     const f2 = (e) => {
         e.preventDefault();
@@ -46,7 +51,6 @@ function Dashboard() {
         e.preventDefault();
         let url = fucUrl;
         setUrl("");
-        setFetching(true);
         let p = url.split("=");
         let final = p[1].split("&");
         console.log(final[0]);
@@ -70,11 +74,9 @@ function Dashboard() {
             const responseData = await response.json();
             setComments(responseData);
             setComment(true);
-            setFetching(false);
             console.log(responseData)
         } 
         catch (error) {
-            setFetching(false);
             console.error("There was a problem with your fetch operation:", error);
         }
     };
@@ -103,7 +105,7 @@ function Dashboard() {
                                 </div>
                             </form>
                             </nav>
-                            {(field===1?<Sentiment comments={comments} comment={Comment}/>:(field===2?<Emotion comments={comments} comment={Comment}/>:(field===3?<Toxicity comments={comments} comment={Comment}/>:(field===4?<Summarization comments={comments} comment={Comment}/>:<Frontpage/>))))}
+                            {(field===1?<Sentiment comments={comments} comment={Comment} sendata={sendata} setSendata={setSendata} sen={sen} setSen={setSen}/>:(field===2?<Emotion comments={comments} comment={Comment} emodata={emodata} setEmodata={setEmodata}/>:(field===3?<Toxicity comments={comments} comment={Comment} toxdata={toxdata} setToxdata={setToxdata}/>:(field===4?<Summarization comments={comments} comment={Comment} data={data} setData={setData}/>:<Frontpage/>))))}
                         </div>
                     </div>
                 </div>

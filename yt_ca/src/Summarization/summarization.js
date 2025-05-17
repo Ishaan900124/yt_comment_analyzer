@@ -1,12 +1,13 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 
-const Summarization = ({comments, comment}) => {
-    const [data, setData] = useState([]);
+const Summarization = ({comments, comment, data, setData}) => {
+    const [fetching, setFetching] = useState(false);
     const handleSubmit = async (e) => {
         e.preventDefault();
         if(!comment){
             return false;
         }
+        setFetching(true);
         try {
             const response = await fetch(
                 "http://localhost:5000/summarization",
@@ -24,8 +25,10 @@ const Summarization = ({comments, comment}) => {
             const responseData = Array.from(await response.json());
             console.log(responseData);
             setData(responseData[0]);
+            setFetching(false);
         } 
         catch (error) {
+            setFetching(false);
             console.error("There was a problem with your fetch operation:", error);
         }
     };
@@ -36,12 +39,13 @@ const Summarization = ({comments, comment}) => {
             <button style={{width:"400px", left:"50%", backgroundColor:"blue", borderColor:"blue", borderRadius:"5px", color:"white", display:"block", margin:"30px auto", height:"40px"}} onClick={handleSubmit}>Summarize</button>
             <div className="row">
                 <div className="col-xl-12 col-lg-7">
+                    {fetching?<h4 style={{textAlign:'center'}}>Summarizing.... Please Wait....</h4>:
                     <div className="card shadow mb-4">
                         <div className="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                             <h6 className="m-0 font-weight-bold text-primary">Summary of Comments</h6>
                         </div>
                         <h5 style={{marginLeft:"20px"}}>{data}</h5>
-                    </div>
+                    </div>}
                 </div>
             </div>
         </div>
