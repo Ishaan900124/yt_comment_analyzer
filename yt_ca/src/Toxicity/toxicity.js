@@ -3,17 +3,13 @@ import Card from '../card'
 import CommentCard from './commentCard';
 
 const Toxicity = ({comments, comment, toxdata, setToxdata}) => {
-    const toxic = 0;
-    const severe_toxic = 0;
-    const hate = 0;
-    const obscene = 0;
-    const insult = 0;
-    const racism = 0;
+    const [fetching, setFetching] = useState(false);
     const handleSubmit = async (e) => {
         e.preventDefault();
         if(!comment){
             return false;
         }
+        setFetching(true);
         try {
             const response = await fetch(
                 "http://localhost:5000/toxicity",
@@ -31,8 +27,10 @@ const Toxicity = ({comments, comment, toxdata, setToxdata}) => {
             const responseData = Array.from(await response.json());
             console.log(responseData);
             setToxdata(responseData);
+            setFetching(false);
         } 
         catch (error) {
+            setFetching(false);
             console.error("There was a problem with your fetch operation:", error);
         }
     };
@@ -42,6 +40,7 @@ const Toxicity = ({comments, comment, toxdata, setToxdata}) => {
         <button style={{width:"400px", left:"50%", backgroundColor:"blue", borderColor:"blue", borderRadius:"5px", color:"white", display:"block", margin:"30px auto", height:"40px"}} onClick={handleSubmit}>Analyze</button>
         <div className="row">
             <div className="col-xl-12 col-lg-7">
+                {fetching?<h4 style={{textAlign:'center'}}>Analyzing.... Please Wait....</h4>:
                 <div className="card shadow mb-4">
                     <div className="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                         <h6 className="m-0 font-weight-bold text-primary" style={{width:"20%"}}>User</h6>
@@ -53,7 +52,7 @@ const Toxicity = ({comments, comment, toxdata, setToxdata}) => {
                             <CommentCard user={c.username} comment={c.comment} toxicity={c.toxicity} />
                         )
                     )}
-                </div>
+                </div>}
             </div>
         </div>
     </div>

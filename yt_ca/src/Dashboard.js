@@ -105,7 +105,7 @@ function Dashboard() {
                                 </div>
                             </form>
                             </nav>
-                            {(field===1?<Sentiment comments={comments} comment={Comment} sendata={sendata} setSendata={setSendata} sen={sen} setSen={setSen}/>:(field===2?<Emotion comments={comments} comment={Comment} emodata={emodata} setEmodata={setEmodata}/>:(field===3?<Toxicity comments={comments} comment={Comment} toxdata={toxdata} setToxdata={setToxdata}/>:(field===4?<Summarization comments={comments} comment={Comment} data={data} setData={setData}/>:<Frontpage/>))))}
+                            {(field===1?<Sentiment comments={comments} comment={Comment} sendata={sendata} setSendata={setSendata} />:(field===2?<Emotion comments={comments} comment={Comment} emodata={emodata} setEmodata={setEmodata}/>:(field===3?<Toxicity comments={comments} comment={Comment} toxdata={toxdata} setToxdata={setToxdata}/>:(field===4?<Summarization comments={comments} comment={Comment} data={data} setData={setData}/>:<Frontpage/>))))}
                         </div>
                     </div>
                 </div>

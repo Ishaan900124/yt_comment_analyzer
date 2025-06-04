@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import Carde from '../carde'
 import CommentCard from './commentCard'
 
-const Sentiment = ({comments, comment, sendata, setSendata, sen, setSen}) => {
+const Sentiment = ({comments, comment, sendata, setSendata}) => {
     const positive = sendata.filter(d => d.sentiment === 'positive').length;
     const negative = sendata.filter(d => d.sentiment === 'negative').length;
     const neutral = sendata.filter(d => d.sentiment === 'neutral').length;
@@ -31,7 +31,6 @@ const Sentiment = ({comments, comment, sendata, setSendata, sen, setSen}) => {
             console.log(responseData);
             setSendata(responseData);
             setFetching(false);
-            setSen(true);
         } 
         catch (error) {
             setFetching(false);
@@ -50,7 +49,6 @@ const Sentiment = ({comments, comment, sendata, setSendata, sen, setSen}) => {
         <div className="row">
             <div className="col-xl-12 col-lg-7">
                 {fetching?<h4 style={{textAlign:'center'}}>Analyzing.... Please Wait....</h4>:
-                
                 <div className="card shadow mb-4">
                     <div className="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                         <h6 className="m-0 font-weight-bold text-primary" style={{width:"23%"}}>User</h6>
